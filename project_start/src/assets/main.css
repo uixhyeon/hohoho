@@ -1,0 +1,9 @@
+@import "./base.css";
+main {
+  padding: 50px 0;
+  text-align: center;
+}
+ul,
+li {
+  list-style: none;
+}
