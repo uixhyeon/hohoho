@@ -4,7 +4,7 @@
 
 <template>
   <div >
-서브3
+booknow
   </div>
 </template>
 

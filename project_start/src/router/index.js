@@ -1,23 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import About from "@/views/Information.vue";
+import Information from "@/views/Information.vue";
+import Reservation from "@/views/Reservation.vue";
+import Community from "@/views/Community.vue";
+import BookNow from "@/views/booking/BookNow.vue";
+import ChangeBooking from "@/views/booking/ChangeBooking.vue";
 import Login from "@/views/Login.vue";
-import Review from "@/views/community.vue";
-import Singup from "@/views/Singup.vue";
-import Menu from "@/views/Reservation.vue";
-import Submenu1 from "@/views/submenu/Submenu1.vue";
-import Submenu2 from "@/views/submenu/Submenu2.vue";
-import Submenu3 from "@/views/submenu/Submenu3.vue";
+import Signup from "@/views/Signup.vue";
+import Promotion from "@/views/Promotion.vue";
+import Support from "@/views/Support.vue";
 const routes = [
   { path: "/", component: HomeView },
-  { path: "/about", component: About },
+  { path: "/information", component: Information },
+  { path: "/reservation", component: Reservation },
+  { path: "/community", component: Community },
+  { path: "/booknow", component: BookNow },
+  { path: "/changebooking", component: ChangeBooking },
   { path: "/login", component: Login },
-  { path: "/singup", component: Singup },
-  { path: "/menu", component: Menu },
-  { path: "/review", component: Review },
-  { path: "/submenu1", component: Submenu1 },
-  { path: "/submenu2", component: Submenu2 },
-  { path: "/submenu3", component: Submenu3 },
+  { path: "/signup", component: Signup },
+  { path: "/promotion", component: Promotion},
+  { path: "/support", component: Support}
 ];
 // 라우터 만들기 (길 안내 지도 같은 것)
 // createRouter() → "길을 만드는 도구"

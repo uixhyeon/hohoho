@@ -4,7 +4,7 @@
 
 <template>
   <div >
-서브2
+changeBooking
   </div>
 </template>
 

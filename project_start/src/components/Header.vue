@@ -2,19 +2,18 @@
   <nav>
     <router-link to="/" class="logo">홈(logo)</router-link>
     <div class="menu">
-      <router-link to="/about">information(이용안내)</router-link>
-      <router-link to="/promotions">promotions___(혜택)</router-link>
-      <router-link to="/menu" class="dropdown"
+      <router-link to="/information">information(이용안내)</router-link>
+      <router-link to="/promotion">promotion(혜택)</router-link>
+      <router-link to="/reservation" class="dropdown"
         >reservation(예약)
         <ul class="submenu">
-          <li><router-link to="/submenu1">submenu1</router-link></li>
-          <li><router-link to="/submenu2">submenu2</router-link></li>
-          <li><router-link to="/submenu3">submenu3</router-link></li>
+          <li><router-link to="/booknow">booknow</router-link></li>
+          <li><router-link to="/changebooking">changebooking</router-link></li>
         </ul>
       </router-link>
       
-      <router-link to="/review">community(커뮤니티)</router-link>
-      <router-link to="/">support__(고객센터)</router-link>
+      <router-link to="/community">community(커뮤니티)</router-link>
+      <router-link to="/support">support(고객센터)</router-link>
     </div>
 
     <div class="login">
