@@ -1,12 +1,15 @@
 // 최근 본 코드 페이지
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CATEGORIES } from '../constants/categories';
 import Sidebar from '../components/Sidebar';
 import ArchiveCard from '../components/ArchiveCard';
+import ArchiveForm from '../components/ArchiveForm';
 import '../styles/RecentViews.scss';
 
 function RecentViews() {
   const [recentViews, setRecentViews] = useState([]);
+  const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,14 +45,29 @@ function RecentViews() {
     }
   };
 
+  const handleFormClose = () => {
+    setShowForm(false);
+    loadRecentViews();
+  };
+
   return (
     <div className="recent-views-page">
       <Sidebar />
 
       <div className="recent-views-main">
         <header className="page-header">
-          <h1>🕒 최근 본 코드</h1>
-          <p>최근에 확인한 코드 아카이브 목록입니다.</p>
+          <div className="header-content">
+            <div>
+              <h1>🕒 최근 본 코드</h1>
+              <p>최근에 확인한 코드 아카이브 목록입니다.</p>
+            </div>
+            <button
+              onClick={() => setShowForm(true)}
+              className="write-btn"
+            >
+              ✏️ 글쓰기
+            </button>
+          </div>
         </header>
 
         <main className="recent-views-content">
@@ -74,6 +92,14 @@ function RecentViews() {
           )}
         </main>
       </div>
+
+      {showForm && (
+        <ArchiveForm
+          category={CATEGORIES[0].id}
+          archive={null}
+          onClose={handleFormClose}
+        />
+      )}
     </div>
   );
 }

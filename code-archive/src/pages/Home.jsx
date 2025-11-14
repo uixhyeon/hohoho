@@ -78,6 +78,21 @@ function Home() {
 
       {/* 메인 콘텐츠 */}
       <div className="home-main">
+        <header className="page-header">
+          <div className="header-content">
+            <div>
+              <h1>📚 Code Archive</h1>
+              <p>코드 아카이브를 카테고리별로 관리하세요.</p>
+            </div>
+            <button
+              onClick={() => setShowForm(true)}
+              className="write-btn"
+            >
+              ✏️ 글쓰기
+            </button>
+          </div>
+        </header>
+
         <CategoryTabs
           categories={CATEGORIES}
           selectedCategory={selectedCategory}

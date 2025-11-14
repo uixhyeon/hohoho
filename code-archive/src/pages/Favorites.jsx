@@ -1,12 +1,15 @@
 // 즐겨찾기 페이지
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CATEGORIES } from '../constants/categories';
 import Sidebar from '../components/Sidebar';
 import ArchiveCard from '../components/ArchiveCard';
+import ArchiveForm from '../components/ArchiveForm';
 import '../styles/Favorites.scss';
 
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
+  const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,14 +50,29 @@ function Favorites() {
     handleDelete(archiveId);
   };
 
+  const handleFormClose = () => {
+    setShowForm(false);
+    loadFavorites();
+  };
+
   return (
     <div className="favorites-page">
       <Sidebar />
 
       <div className="favorites-main">
         <header className="page-header">
-          <h1>⭐ 즐겨찾기</h1>
-          <p>자주 보는 중요한 코드 아카이브를 모아보세요.</p>
+          <div className="header-content">
+            <div>
+              <h1>⭐ 즐겨찾기</h1>
+              <p>자주 보는 중요한 코드 아카이브를 모아보세요.</p>
+            </div>
+            <button
+              onClick={() => setShowForm(true)}
+              className="write-btn"
+            >
+              ✏️ 글쓰기
+            </button>
+          </div>
         </header>
 
         <main className="favorites-content">
@@ -83,6 +101,14 @@ function Favorites() {
           )}
         </main>
       </div>
+
+      {showForm && (
+        <ArchiveForm
+          category={CATEGORIES[0].id}
+          archive={null}
+          onClose={handleFormClose}
+        />
+      )}
     </div>
   );
 }
