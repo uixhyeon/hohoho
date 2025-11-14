@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { CATEGORIES } from '../constants/categories';
 import { getArchivesByCategory } from '../services/archiveService';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 import CategoryTabs from '../components/CategoryTabs';
 import ArchiveList from '../components/ArchiveList';
 import ArchiveForm from '../components/ArchiveForm';
-import SearchBar from '../components/SearchBar';
 import '../styles/Home.scss';
 
 function Home() {
@@ -63,36 +64,38 @@ function Home() {
 
   return (
     <div className="home">
-      <header className="header">
-        <h1>Code Archive</h1>
-        <div className="header-actions">
-          <SearchBar onSearch={handleSearch} />
-          <button
-            className="add-button"
-            onClick={() => setShowForm(true)}
-          >
-            + 새 아카이브
-          </button>
-        </div>
-      </header>
-
-      <CategoryTabs
-        categories={CATEGORIES}
-        selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
+      {/* 상단 네비게이션 바 */}
+      <Navbar
+        onSearch={handleSearch}
+        onAddNew={() => setShowForm(true)}
       />
 
-      <main className="main-content">
-        {loading ? (
-          <div className="loading">Loading...</div>
-        ) : (
-          <ArchiveList
-            archives={filteredArchives}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        )}
-      </main>
+      {/* 사이드바 */}
+      <Sidebar
+        selectedCategory={selectedCategory}
+        onCategorySelect={setSelectedCategory}
+      />
+
+      {/* 메인 콘텐츠 */}
+      <div className="home-main">
+        <CategoryTabs
+          categories={CATEGORIES}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+
+        <main className="main-content">
+          {loading ? (
+            <div className="loading">Loading...</div>
+          ) : (
+            <ArchiveList
+              archives={filteredArchives}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          )}
+        </main>
+      </div>
 
       {showForm && (
         <ArchiveForm
