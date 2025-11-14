@@ -64,11 +64,11 @@ function Home() {
 
   return (
     <div className="home">
-      {/* 상단 네비게이션 바 */}
-      <Navbar
+      {/* 상단 네비게이션 바 - 임시 비활성화 */}
+      {/* <Navbar
         onSearch={handleSearch}
         onAddNew={() => setShowForm(true)}
-      />
+      /> */}
 
       {/* 사이드바 */}
       <Sidebar

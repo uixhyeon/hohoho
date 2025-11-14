@@ -1,5 +1,6 @@
 // 사이드바 컴포넌트 (접이식)
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CATEGORIES } from '../constants/categories';
 import '../styles/Sidebar.scss';
 
@@ -7,6 +8,7 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
   const [isOpen, setIsOpen] = useState(true);
   const [recentViews, setRecentViews] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const navigate = useNavigate();
 
   // 로컬 스토리지에서 데이터 불러오기
   useEffect(() => {
@@ -37,6 +39,7 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
   };
 
   const handleCategoryClick = (categoryId) => {
+    navigate('/');
     if (onCategorySelect) {
       onCategorySelect(categoryId);
     }
@@ -50,6 +53,14 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
   const handleFavoriteClick = (archiveId) => {
     // 아카이브 보기 기능 (나중에 구현)
     console.log('Favorite archive:', archiveId);
+  };
+
+  const handleViewAllRecent = () => {
+    navigate('/recent');
+  };
+
+  const handleViewAllFavorites = () => {
+    navigate('/favorites');
   };
 
   return (
@@ -68,9 +79,12 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
         <div className="sidebar-content">
           {/* 최근 본 코드 */}
           <section className="sidebar-section">
-            <h3 className="sidebar-title">
+            <button
+              className="sidebar-title clickable"
+              onClick={handleViewAllRecent}
+            >
               🕒 최근 본 코드
-            </h3>
+            </button>
             <ul className="sidebar-list">
               {recentViews.length === 0 ? (
                 <li className="sidebar-empty">최근 기록 없음</li>
@@ -91,9 +105,12 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
 
           {/* 즐겨찾기/북마크 */}
           <section className="sidebar-section">
-            <h3 className="sidebar-title">
+            <button
+              className="sidebar-title clickable"
+              onClick={handleViewAllFavorites}
+            >
               ⭐ 즐겨찾기
-            </h3>
+            </button>
             <ul className="sidebar-list">
               {favorites.length === 0 ? (
                 <li className="sidebar-empty">즐겨찾기 없음</li>

@@ -68,6 +68,22 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
+  &.clickable {
+    cursor: pointer;
+    background: none;
+    border: none;
+    border-bottom: 2px solid #667eea;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    padding: 0 0 0.5rem 0;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #667eea;
+    }
+  }
 }
 
 .sidebar-list {
