@@ -3,7 +3,6 @@ import { CATEGORIES } from '../constants/categories';
 import { getArchivesByCategory } from '../services/archiveService';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import CategoryTabs from '../components/CategoryTabs';
 import ArchiveList from '../components/ArchiveList';
 import ArchiveForm from '../components/ArchiveForm';
 import '../styles/Home.scss';
@@ -15,6 +14,7 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editingArchive, setEditingArchive] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     loadArchives();
@@ -33,18 +33,27 @@ function Home() {
     }
   };
 
-  const handleSearch = (searchTerm) => {
-    if (!searchTerm.trim()) {
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    if (!value.trim()) {
       setFilteredArchives(archives);
       return;
     }
 
     const filtered = archives.filter(archive =>
-      archive.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      archive.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      archive.code?.toLowerCase().includes(searchTerm.toLowerCase())
+      archive.title?.toLowerCase().includes(value.toLowerCase()) ||
+      archive.description?.toLowerCase().includes(value.toLowerCase()) ||
+      archive.code?.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredArchives(filtered);
+  };
+
+  // 선택된 카테고리 이름 가져오기
+  const getCategoryName = () => {
+    const category = CATEGORIES.find(cat => cat.id === selectedCategory);
+    return category ? category.name : 'All';
   };
 
   const handleEdit = (archive) => {
@@ -80,24 +89,26 @@ function Home() {
       <div className="home-main">
         <header className="page-header">
           <div className="header-content">
-            <div>
-              <h1>📚 Code Archive</h1>
-              <p>코드 아카이브를 카테고리별로 관리하세요.</p>
+            <div className="title-section">
+              <h1>📚 {getCategoryName()}</h1>
             </div>
-            <button
-              onClick={() => setShowForm(true)}
-              className="write-btn"
-            >
-              ✏️ 글쓰기
-            </button>
+            <div className="actions-section">
+              <input
+                type="text"
+                placeholder="🔍 검색..."
+                value={searchTerm}
+                onChange={handleSearch}
+                className="search-input"
+              />
+              <button
+                onClick={() => setShowForm(true)}
+                className="write-btn"
+              >
+                ✏️ 글쓰기
+              </button>
+            </div>
           </div>
         </header>
-
-        <CategoryTabs
-          categories={CATEGORIES}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
 
         <main className="main-content">
           {loading ? (
