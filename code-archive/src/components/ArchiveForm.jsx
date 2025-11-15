@@ -1,6 +1,23 @@
 import { useState, useEffect } from 'react';
+import CodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
+import { python } from '@codemirror/lang-python';
+import { html } from '@codemirror/lang-html';
+import { css } from '@codemirror/lang-css';
+import { json } from '@codemirror/lang-json';
+import { oneDark } from '@codemirror/theme-one-dark';
 import { createArchive, updateArchive } from '../services/archiveService';
 import '../styles/ArchiveForm.scss';
+
+// 지원하는 언어 목록
+const LANGUAGES = [
+  { id: 'javascript', name: 'JavaScript', extension: javascript },
+  { id: 'python', name: 'Python', extension: python },
+  { id: 'html', name: 'HTML', extension: html },
+  { id: 'css', name: 'CSS', extension: css },
+  { id: 'json', name: 'JSON', extension: json },
+  { id: 'plaintext', name: 'Plain Text', extension: null },
+];
 
 function ArchiveForm({ category, archive, onClose }) {
   const [formData, setFormData] = useState({
@@ -8,7 +25,8 @@ function ArchiveForm({ category, archive, onClose }) {
     description: '',
     code: '',
     tags: '',
-    category: category
+    category: category,
+    language: 'javascript'
   });
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +37,8 @@ function ArchiveForm({ category, archive, onClose }) {
         description: archive.description || '',
         code: archive.code || '',
         tags: archive.tags ? archive.tags.join(', ') : '',
-        category: archive.category || category
+        category: archive.category || category,
+        language: archive.language || 'javascript'
       });
     }
   }, [archive, category]);
@@ -30,6 +49,19 @@ function ArchiveForm({ category, archive, onClose }) {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleCodeChange = (value) => {
+    setFormData(prev => ({
+      ...prev,
+      code: value
+    }));
+  };
+
+  // 선택한 언어에 맞는 확장 가져오기
+  const getLanguageExtension = () => {
+    const lang = LANGUAGES.find(l => l.id === formData.language);
+    return lang?.extension ? [lang.extension()] : [];
   };
 
   const handleSubmit = async (e) => {
@@ -95,17 +127,34 @@ function ArchiveForm({ category, archive, onClose }) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="code">코드 *</label>
-            <textarea
-              id="code"
-              name="code"
-              value={formData.code}
+            <label htmlFor="language">코드 언어</label>
+            <select
+              id="language"
+              name="language"
+              value={formData.language}
               onChange={handleChange}
-              required
-              placeholder="코드를 입력하세요"
-              rows={10}
-              className="code-textarea"
-            />
+              className="language-select"
+            >
+              {LANGUAGES.map(lang => (
+                <option key={lang.id} value={lang.id}>
+                  {lang.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="code">코드 *</label>
+            <div className="code-editor-wrapper">
+              <CodeMirror
+                value={formData.code}
+                height="300px"
+                theme={oneDark}
+                extensions={getLanguageExtension()}
+                onChange={handleCodeChange}
+                placeholder="코드를 입력하세요..."
+              />
+            </div>
           </div>
 
           <div className="form-group">
