@@ -1,6 +1,6 @@
-// 즐겨찾기 페이지
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Star, Plus, Inbox } from 'lucide-react';
 import { CATEGORIES } from '../constants/categories';
 import Sidebar from '../components/Sidebar';
 import ArchiveCard from '../components/ArchiveCard';
@@ -28,7 +28,6 @@ function Favorites() {
   };
 
   const handleEdit = (archive) => {
-    // 수정 기능 - 나중에 구현
     console.log('Edit:', archive);
   };
 
@@ -45,11 +44,6 @@ function Favorites() {
     }
   };
 
-  const handleToggleFavorite = (archiveId) => {
-    // 즐겨찾기 토글 기능
-    handleDelete(archiveId);
-  };
-
   const handleFormClose = () => {
     setShowForm(false);
     loadFavorites();
@@ -63,14 +57,15 @@ function Favorites() {
         <header className="page-header">
           <div className="header-content">
             <div>
-              <h1>⭐ 즐겨찾기</h1>
-              <p>자주 보는 중요한 코드 아카이브를 모아보세요.</p>
+              <h1>
+                <Star size={20} />
+                즐겨찾기
+              </h1>
+              <p>자주 보는 중요한 코드를 모아보세요.</p>
             </div>
-            <button
-              onClick={() => setShowForm(true)}
-              className="write-btn"
-            >
-              ✏️ 글쓰기
+            <button onClick={() => setShowForm(true)} className="write-btn">
+              <Plus size={16} />
+              글쓰기
             </button>
           </div>
         </header>
@@ -78,10 +73,10 @@ function Favorites() {
         <main className="favorites-content">
           {favorites.length === 0 ? (
             <div className="empty-state">
-              <div className="empty-icon">⭐</div>
+              <Inbox size={48} />
               <p>즐겨찾기한 코드가 없습니다.</p>
               <p className="empty-description">
-                아카이브 카드에서 별 아이콘을 클릭하여 즐겨찾기에 추가하세요.
+                아카이브 카드에서 별 아이콘을 클릭하여 추가하세요.
               </p>
               <button onClick={() => navigate('/')} className="go-home-btn">
                 홈으로 가기

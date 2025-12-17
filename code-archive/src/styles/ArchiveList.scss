@@ -1,7 +1,7 @@
 .archive-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -10,17 +10,24 @@
 
 .empty-state {
   text-align: center;
-  padding: 4rem 2rem;
-  color: #95a5a6;
+  padding: 4rem 1.5rem;
+  color: var(--text-muted);
+  grid-column: 1 / -1;
+
+  svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+  }
 
   p {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.9375rem;
+    margin-bottom: 0.25rem;
 
-    &:first-child {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #7f8c8d;
+    &:first-of-type {
+      font-size: 1rem;
+      color: var(--text-secondary);
     }
   }
 }

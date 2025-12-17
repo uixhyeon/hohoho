@@ -1,3 +1,4 @@
+import { Inbox } from 'lucide-react';
 import ArchiveCard from './ArchiveCard';
 import '../styles/ArchiveList.scss';
 
@@ -5,6 +6,7 @@ function ArchiveList({ archives, onEdit, onDelete }) {
   if (archives.length === 0) {
     return (
       <div className="empty-state">
+        <Inbox size={48} />
         <p>아카이브가 없습니다.</p>
         <p>새 아카이브를 추가해보세요!</p>
       </div>

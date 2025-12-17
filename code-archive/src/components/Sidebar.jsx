@@ -1,6 +1,6 @@
-// 사이드바 컴포넌트 (접이식)
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { Home, Clock, Star, Folder, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { CATEGORIES } from '../constants/categories';
 import '../styles/Sidebar.scss';
 
@@ -8,9 +8,10 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
   const [isOpen, setIsOpen] = useState(true);
   const [recentViews, setRecentViews] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // 로컬 스토리지에서 데이터 불러오기
   useEffect(() => {
     loadRecentViews();
     loadFavorites();
@@ -39,136 +40,100 @@ export default function Sidebar({ onCategorySelect, selectedCategory }) {
   };
 
   const handleCategoryClick = (categoryId) => {
-    navigate('/');
+    navigate(`/archives?category=${categoryId}`);
     if (onCategorySelect) {
       onCategorySelect(categoryId);
     }
   };
 
-  const handleRecentClick = (archiveId) => {
-    // 아카이브 보기 기능 (나중에 구현)
-    console.log('Recent archive:', archiveId);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+      setSearchTerm('');
+    }
   };
 
-  const handleFavoriteClick = (archiveId) => {
-    // 아카이브 보기 기능 (나중에 구현)
-    console.log('Favorite archive:', archiveId);
-  };
-
-  const handleViewAllRecent = () => {
-    navigate('/recent');
-  };
-
-  const handleViewAllFavorites = () => {
-    navigate('/favorites');
-  };
+  const isActive = (path) => location.pathname === path;
 
   return (
     <>
-      {/* 토글 버튼 */}
       <button
         className={`sidebar-toggle ${isOpen ? 'open' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
         aria-label="사이드바 토글"
       >
-        {isOpen ? '◀' : '▶'}
+        {isOpen ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
       </button>
 
-      {/* 사이드바 */}
       <aside className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
+        <Link to="/" className="sidebar-logo">
+          <span className="logo-title">CodeArchive</span>
+          <span className="logo-subtitle">uixhyeon</span>
+        </Link>
+
+        <form onSubmit={handleSearch} className="sidebar-search">
+          <Search size={14} className="search-icon" />
+          <input
+            type="text"
+            placeholder="검색..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </form>
+
         <div className="sidebar-content">
-          {/* 최근 본 코드 */}
-          <section className="sidebar-section">
-            <button
-              className="sidebar-title clickable"
-              onClick={handleViewAllRecent}
-            >
-              🕒 최근 본 코드
-            </button>
-            <ul className="sidebar-list">
-              {recentViews.length === 0 ? (
-                <li className="sidebar-empty">최근 기록 없음</li>
-              ) : (
-                recentViews.slice(0, 5).map((item) => (
-                  <li key={item.id} className="sidebar-item">
-                    <button
-                      onClick={() => handleRecentClick(item.id)}
-                      className="sidebar-link"
-                    >
-                      {item.title}
-                    </button>
-                  </li>
-                ))
-              )}
-            </ul>
-          </section>
+          <nav className="sidebar-nav">
+            <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>
+              <Home size={16} />
+              홈
+            </Link>
+            <Link to="/recent" className={`nav-link ${isActive('/recent') ? 'active' : ''}`}>
+              <Clock size={16} />
+              최근 본 문서
+            </Link>
+            <Link to="/favorites" className={`nav-link ${isActive('/favorites') ? 'active' : ''}`}>
+              <Star size={16} />
+              즐겨찾기
+            </Link>
+          </nav>
 
-          {/* 즐겨찾기/북마크 */}
-          <section className="sidebar-section">
-            <button
-              className="sidebar-title clickable"
-              onClick={handleViewAllFavorites}
-            >
-              ⭐ 즐겨찾기
-            </button>
-            <ul className="sidebar-list">
-              {favorites.length === 0 ? (
-                <li className="sidebar-empty">즐겨찾기 없음</li>
-              ) : (
-                favorites.slice(0, 5).map((item) => (
-                  <li key={item.id} className="sidebar-item">
-                    <button
-                      onClick={() => handleFavoriteClick(item.id)}
-                      className="sidebar-link"
-                    >
-                      {item.title}
-                    </button>
-                  </li>
-                ))
-              )}
-            </ul>
-          </section>
-
-          {/* 카테고리별 분류 */}
           <section className="sidebar-section">
             <h3 className="sidebar-title">
-              📂 카테고리
+              <Folder size={14} />
+              실용 코드
             </h3>
-            <div className="category-groups">
-              {/* 실용 코드 */}
-              <div className="category-group">
-                <h4 className="category-group-title">실용 코드</h4>
-                <ul className="sidebar-list">
-                  {CATEGORIES.filter(cat => cat.type === 'code').map((category) => (
-                    <li key={category.id} className="sidebar-item">
-                      <button
-                        onClick={() => handleCategoryClick(category.id)}
-                        className={`sidebar-link category-link ${selectedCategory === category.id ? 'active' : ''}`}
-                      >
-                        <span className="category-name">{category.name}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <ul className="sidebar-list">
+              {CATEGORIES.filter(cat => cat.type === 'code').map((category) => (
+                <li key={category.id} className="sidebar-item">
+                  <button
+                    onClick={() => handleCategoryClick(category.id)}
+                    className={`sidebar-link ${selectedCategory === category.id ? 'active' : ''}`}
+                  >
+                    {category.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-              {/* 개념 정리 */}
-              <div className="category-group">
-                <h4 className="category-group-title">개념 정리</h4>
-                <ul className="sidebar-list">
-                  {CATEGORIES.filter(cat => cat.type === 'concept').map((category) => (
-                    <li key={category.id} className="sidebar-item">
-                      <button
-                        onClick={() => handleCategoryClick(category.id)}
-                        className={`sidebar-link category-link ${selectedCategory === category.id ? 'active' : ''}`}
-                      >
-                        <span className="category-name">{category.name}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+          <section className="sidebar-section">
+            <h3 className="sidebar-title">
+              <Folder size={14} />
+              개념 정리
+            </h3>
+            <ul className="sidebar-list">
+              {CATEGORIES.filter(cat => cat.type === 'concept').map((category) => (
+                <li key={category.id} className="sidebar-item">
+                  <button
+                    onClick={() => handleCategoryClick(category.id)}
+                    className={`sidebar-link ${selectedCategory === category.id ? 'active' : ''}`}
+                  >
+                    {category.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </section>
         </div>
       </aside>

@@ -1,20 +1,24 @@
 .search-bar {
   .search-input {
-    padding: 0.75rem 1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
-    width: 300px;
-    transition: all 0.3s ease;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    padding-left: 2.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.875rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.3-4.3'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0.75rem center;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
 
     &:focus {
       outline: none;
-      border-color: #3498db;
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-    }
-
-    &::placeholder {
-      color: #bdc3c7;
+      border-color: var(--accent);
     }
   }
 }

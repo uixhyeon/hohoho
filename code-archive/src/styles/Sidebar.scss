@@ -1,16 +1,15 @@
-/* 사이드바 스타일 */
 .sidebar {
   position: fixed;
   left: 0;
-  top: 60px; /* Navbar 높이만큼 */
-  width: 260px;
-  height: calc(100vh - 60px);
-  background: white;
-  border-right: 1px solid #e0e0e0;
+  top: 0;
+  width: 240px;
+  height: 100vh;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
   overflow-y: auto;
-  transition: transform 0.3s ease;
   z-index: 999;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 
   &.closed {
     transform: translateX(-100%);
@@ -24,87 +23,175 @@
 .sidebar-toggle {
   position: fixed;
   left: 0;
-  top: 120px;
-  width: 32px;
+  top: 80px;
+  width: 24px;
   height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 0 8px 8px 0;
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 4px 4px 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 0.75rem;
   z-index: 1000;
-  transition: all 0.3s ease;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 
   &.open {
-    left: 260px;
+    left: 240px;
   }
 
   &:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-    width: 36px;
+    color: var(--text-primary);
+  }
+}
+
+.sidebar-logo {
+  display: block;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  flex-shrink: 0;
+
+  &:hover .logo-title {
+    color: var(--accent-hover);
+  }
+
+  .logo-title {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+
+  .logo-subtitle {
+    display: block;
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    margin-top: 0.125rem;
+  }
+}
+
+.sidebar-search {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  flex-shrink: 0;
+
+  .search-icon {
+    position: absolute;
+    left: 1.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    padding-left: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.8125rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
   }
 }
 
 .sidebar-content {
-  padding: 1.5rem 1rem;
+  padding: 0.75rem 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-nav {
+  padding: 0 0.75rem;
+  margin-bottom: 1rem;
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.8125rem;
+    margin-bottom: 2px;
+
+    svg {
+      color: var(--text-muted);
+    }
+
+    &:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    &.active {
+      background: var(--accent);
+      color: white;
+
+      svg {
+        color: white;
+      }
+
+      &:hover {
+        background: var(--accent-hover);
+      }
+    }
+  }
 }
 
 .sidebar-section {
-  margin-bottom: 2rem;
+  padding: 0 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .sidebar-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #667eea;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.25rem;
 
-  &.clickable {
-    cursor: pointer;
-    background: none;
-    border: none;
-    border-bottom: 2px solid #667eea;
-    width: 100%;
-    text-align: left;
-    font-family: inherit;
-    padding: 0 0 0.5rem 0;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: #667eea;
-    }
+  svg {
+    opacity: 0.7;
   }
 }
 
 .sidebar-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
 .sidebar-item {
-  margin-bottom: 0.25rem;
+  margin-bottom: 1px;
 }
 
 .sidebar-link {
   display: block;
   width: 100%;
-  padding: 0.6rem 0.75rem;
-  color: #555;
-  text-decoration: none;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
+  padding-left: 1.75rem;
+  color: var(--text-secondary);
+  border-radius: 4px;
+  font-size: 0.8125rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -112,100 +199,26 @@
   font-family: inherit;
 
   &:hover {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-    color: #667eea;
-    padding-left: 1rem;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
   }
 
   &.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--accent);
     color: white;
-    font-weight: 600;
-  }
-}
 
-.sidebar-empty {
-  padding: 0.75rem;
-  color: #999;
-  font-size: 0.85rem;
-  text-align: center;
-}
-
-/* 카테고리 그룹 */
-.category-groups {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.category-group {
-  .category-group-title {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #999;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.5rem;
-    padding-left: 0.75rem;
-  }
-}
-
-.category-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-content: space-between;
-
-  .category-name {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
-/* 스크롤바 스타일 */
-.sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: #667eea;
-  border-radius: 3px;
-
-  &:hover {
-    background: #764ba2;
-  }
-}
-
-/* 반응형 */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 240px;
-    top: 60px;
-    height: calc(100vh - 60px);
-  }
-
-  .sidebar-toggle {
-    &.open {
-      left: 240px;
+    &:hover {
+      background: var(--accent-hover);
     }
   }
+}
 
-  .sidebar-content {
-    padding: 1rem 0.75rem;
+@media (max-width: 768px) {
+  .sidebar {
+    width: 220px;
   }
 
-  .sidebar-title {
-    font-size: 0.85rem;
-  }
-
-  .sidebar-link {
-    font-size: 0.8rem;
-    padding: 0.5rem 0.6rem;
+  .sidebar-toggle.open {
+    left: 220px;
   }
 }

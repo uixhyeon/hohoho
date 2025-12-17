@@ -1,6 +1,6 @@
-// 최근 본 코드 페이지
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Clock, Plus, Inbox } from 'lucide-react';
 import { CATEGORIES } from '../constants/categories';
 import Sidebar from '../components/Sidebar';
 import ArchiveCard from '../components/ArchiveCard';
@@ -28,7 +28,6 @@ function RecentViews() {
   };
 
   const handleEdit = (archive) => {
-    // 수정 기능 - 나중에 구현
     console.log('Edit:', archive);
   };
 
@@ -58,14 +57,15 @@ function RecentViews() {
         <header className="page-header">
           <div className="header-content">
             <div>
-              <h1>🕒 최근 본 코드</h1>
+              <h1>
+                <Clock size={20} />
+                최근 본 코드
+              </h1>
               <p>최근에 확인한 코드 아카이브 목록입니다.</p>
             </div>
-            <button
-              onClick={() => setShowForm(true)}
-              className="write-btn"
-            >
-              ✏️ 글쓰기
+            <button onClick={() => setShowForm(true)} className="write-btn">
+              <Plus size={16} />
+              글쓰기
             </button>
           </div>
         </header>
@@ -73,6 +73,7 @@ function RecentViews() {
         <main className="recent-views-content">
           {recentViews.length === 0 ? (
             <div className="empty-state">
+              <Inbox size={48} />
               <p>최근 본 코드가 없습니다.</p>
               <button onClick={() => navigate('/')} className="go-home-btn">
                 홈으로 가기
